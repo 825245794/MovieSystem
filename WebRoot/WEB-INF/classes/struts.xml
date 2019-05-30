@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- ${pageContext.request.contextPath} -->	
+<struts>
+  <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+  <constant name="struts.i18n.encoding" value="UTF-8" />
+  <constant name="struts.multipart.saveDir" value="/tmp"/>
+  <package name="" namespace="/" extends="struts-default" >	
+  <action name="admin" class="com.film.action.AdminAction"> 
+	  <result name="success">index</result>
+	  <result name="input"></result>
+	  <result name="order">admin/userorder.jsp</result>
+	  <result name="pay">admin/userpayorder.jsp</result>
+	  <result name="composite">admin/composite.jsp?type=${type}</result>
+   </action>
+   
+  <action name="login" class="com.film.action.LoginAction"> 
+	  <result name="success">index</result>
+	  <result name="input"></result>
+   </action>
+   
+   <action name="forget" class="com.film.action.ForgetAction"> 
+	  <result name="success">index</result>
+	  <result name="error">userforget.jsp</result>
+   </action>
+   
+   <action name="register" class="com.film.action.RegisterAction"> 
+	  <result name="success">index</result>
+	  <result name="input"></result>
+   </action>
+   
+   <action name="pay" class="com.film.action.PayAction"> 
+	  <result name="success">paysuccess.jsp</result>
+	  <result name="input"></result>
+	  <result name="error">payerror.jsp</result>
+   </action>
+   
+   <action name="main" class="com.film.action.MainAction"> 
+	  <result name="success">film.jsp</result>
+	  <result name="input"></result>
+   </action>
+   
+   <action name="film" class="com.film.action.FilmAction"> 
+	  <result name="success">index</result>
+	  <result name="detail">detail.jsp</result>
+	  <result name="input" type="redirectAction">
+		   <param name="actionName">main.action</param> 
+	  </result>
+   </action>
+   
+   <action name="userinfo" class="com.film.action.UserInfoAction"> 
+      <interceptor-ref name="fileUpload">
+      <param name="allowedExtendsions">jpg,png</param>
+      </interceptor-ref>
+      <interceptor-ref name="defaultStack"></interceptor-ref> 
+	  <result name="success">userindex.jsp</result>
+	  <result name="index" type="redirectAction">
+		   <param name="actionName">main.action</param> 
+	  </result>
+	  <result name="input"></result>
+   </action>
+   
+   <action name="userorder" class="com.film.action.UserOrderAction"> 
+	  <result name="success">userorder.jsp</result>
+	  <result name="detail">detail.jsp</result>
+	  <result name="input"></result>
+   </action>
+      
+   <action name="order" class="com.film.action.OrderAction"> 
+	  <result name="success">index</result>
+	  <result name="detail">detail.jsp</result>
+	  <result name="input">seat.jsp?WatchTime=${placeid}&amp;filmname=${filmname}&amp;date=${date}&amp;placename=${placename}&amp;watchname=${watchname}</result>
+   </action>
+   
+   <action name="comment" class="com.film.action.CommentAction"> 
+	  <result name="success" type="redirectAction">
+		    <param name="actionName">film!filmDetail.action</param> 
+		    <param name="filmid">${filmid}</param>
+		 </result>
+	  <result name="input"></result>
+   </action>
+   <action name="*.action">
+      <result>{1}.action</result>
+   </action> 
+    
+   <action name="*">
+	  <result>/{1}.jsp</result>
+   </action> 
+  </package>
+</struts>
+  
